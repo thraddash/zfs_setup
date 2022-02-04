@@ -26,6 +26,7 @@ zpool=$(zpool list -Ho name| tr '\n' ' '| sed 's/ *$//')
 main () {
 
   how_to(){
+    echo "$(yellowprint "[Requires: pkg install rhash, snapshot all dataset in <zpool>]")"
     echo "Usage: rhash.sh $(greenprint "<source zpool>")"
   }
 
@@ -39,7 +40,6 @@ main () {
   }
 
   if [ $# -ne 1 ]; then
-    echo "$(yellowprint "[Requires: pkg install rhash]")"
     how_to
     zpool_menu
     exit 1
@@ -58,7 +58,7 @@ main () {
 
       echo "$(cyanprint "$i") --> $(yellowprint "zfs snapshot -r $dir_path@$time") --> /usr/bin/time -h rhash -r $i > $(magentaprint "$dir_name.rhash")";
       $(zfs snapshot -r $dir_path@$time)
-      $(/usr/bin/time -h rhash -r $i > $dir_name.rhash)
+      #$(/usr/bin/time -h rhash -r $i > $dir_name.rhash)
     done
 
   elif [[ $CHECK -eq 0 ]]; then
